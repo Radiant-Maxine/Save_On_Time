@@ -12,8 +12,11 @@ $form.FormBorderStyle = [System.Windows.Forms.FormBorderStyle]::FixedSingle
 $form.MaximizeBox = $false   # Désactive le bouton "agrandir"
 $form.MinimizeBox = $true    # On garde le bouton "réduire"
 
+# Récupérer le dossier de l'exécutable ($PSScriptRoot est vide quand compilé avec ps2exe)
+$cheminScript = if ($PSScriptRoot) { $PSScriptRoot } else { Split-Path -Parent ([System.Diagnostics.Process]::GetCurrentProcess().MainModule.FileName) }
+
 # Maintenant, je vais définir le logo du logiciel (chemin relatif à l'exécutable, dans le même répertoire)
-$cheminIcone = Join-Path $PSScriptRoot "logo_Save_on_Time.ico"
+$cheminIcone = Join-Path $cheminScript "logo_Save_on_Time.ico"
 if (Test-Path $cheminIcone) {
     $form.Icon = New-Object System.Drawing.Icon($cheminIcone)
 }
